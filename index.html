@@ -449,7 +449,7 @@
             color: #5BCEFA;
             text-decoration: none;
             font-size: 0.85em;
-            margin-top: 0.5rem;
+            box-sizing: border-box;
             padding: 0.3rem 0.8rem;
             border: 1px solid rgba(91, 206, 250, 0.2);
             border-radius: 16px;
@@ -457,6 +457,28 @@
         }
 
         .rss-link:hover {
+            border-color: #F5A9B8;
+            color: #F5A9B8;
+            text-shadow: 0 0 6px rgba(255, 255, 255, 0.75);
+        }
+
+        .rain-toggle-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: #5BCEFA;
+            background: transparent;
+            border: 1px solid rgba(91, 206, 250, 0.2);
+            padding: 0.3rem 0.8rem;
+            border-radius: 16px;
+            font-size: 0.85em;
+            font-family: inherit;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            box-sizing: border-box;
+        }
+
+        .rain-toggle-btn:hover {
             border-color: #F5A9B8;
             color: #F5A9B8;
             text-shadow: 0 0 6px rgba(255, 255, 255, 0.75);
@@ -528,7 +550,7 @@
 
     <noscript>
         <div class="noscript-warning">
-            ⚠️ Some features require JavaScript. For Tor Browser users, basic functionality remains available.
+            ⚠️ Website requires JavaScript. No tracking or ads are enabled for this site. All images are loaded from the GitHub repository.
         </div>
     </noscript>
 
@@ -542,7 +564,10 @@
                 <div class="banner">
                     <h2 id="blog-title">Daethyra's Blog</h2>
                     <p id="blog-desc">it's pronounced, duh-theer-uh, choom.</p>
-                    <a class="rss-link" onclick="showRSS()">Subscribe (RSS)</a>
+                    <div style="display: flex; justify-content: center; gap: 1rem; flex-wrap: wrap; margin-top: 0.5rem;">
+                        <a class="rss-link" onclick="showRSS()">Subscribe (RSS)</a>
+                        <button id="rain-toggle" class="rain-toggle-btn" onclick="toggleRain()">Rain: On</button>
+                    </div>
                 </div>
 
                 <!-- Navigation -->
@@ -662,6 +687,17 @@
             }
         }
 
+        function toggleRain() {
+            const btn = document.getElementById('rain-toggle');
+            if (isRainRunning) {
+                stopRain();
+                btn.textContent = 'Rain: Off';
+            } else {
+                startRain();
+                btn.textContent = 'Rain: On';
+            }
+        }
+
         // stop rain when tab is hidden (switching tabs, minimizing browser)
         // resume when tab becomes visible again
         document.addEventListener('visibilitychange', function() {
@@ -706,7 +742,7 @@
                 title: "Why create a blog?",
                 date: "2026-07-19 | 7:44 PM",
                 excerpt: "Building a website has been something on my to-do list for a long, long time.",
-                tags: [],
+                tags: ["personal"],
                 content: `
                     <p>honestly? i'm pretty proud w/ how it turned out. in the future, i'd like to post about my personal projects, and separately, share my thoughts on different technologies so that when someone asks me a question in real life, i can point them to this blog. :3</p>
                     <img src="assets/speed yeah.gif" alt="IShowSpeed yeah react gif" loading="lazy" style="display: block; margin-left: auto; margin-right: auto; max-width: 100%; height: auto;">
