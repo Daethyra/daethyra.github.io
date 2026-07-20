@@ -491,7 +491,7 @@
             background: #5BCEFA;
         }
         
-        /* Gif Control */
+        /* Image/Gif Control */
         .gif-row {
             display: flex;
             gap: 0.5rem;
@@ -503,6 +503,24 @@
             max-width: 30%;
             height: auto;
             border-radius: 4px;
+        }
+
+        /* Poems */
+        .poem {
+            white-space: pre-line;
+            font-family: inherit;
+            max-width: 550px;
+            margin: 0 auto;
+            padding: 0rem 1rem;
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 8px;
+            border-left: 3px solid #5BCEFA;
+            /* line-height: 1.9; */
+        }
+
+        .poem-title {
+            /* margin-bottom: 0.25rem; */
+            color: #F5A9B8;
         }
     </style>
 </head>
@@ -681,7 +699,7 @@
             content.classList.toggle('show');
         }
 
-        // blog data w/ tags :3
+        // blog data w/ tags :3 || posts bookmark
         const posts = [
             {
                 id: 1,
@@ -695,19 +713,107 @@
                     <p></p>
                 `
             },
-            // {
-            //     id: 2,
-            //     title: "second example",
-            //     date: "2026-07-21(9+10=21)",
-            //     excerpt: "i'm woke and based idk",
-            //     tags: ["woke and based", "personal"],
-            //     content: `
-            //         <p>erm actually</p>
-            //         <p>jk i'm true. i'm really true.</p>
-            //     `
-            // },
+            {
+                id: 2,
+                title: "A few of my Favorite Poems",
+                date: "2026-07-20 | 3:41 PM",
+                excerpt: "First They Came & Phenomenal Woman",
+                tags: ["politics"],
+                content: `
+                    <h3 class="poem-title">First They Came by Pastor Martin </h3>
+                    <div class="poem">First they came for the Communists
+                    And I did not speak out
+                    Because I was not a Communist
+                    Then they came for the Socialists
+                    And I did not speak out
+                    Because I was not a Socialist
+                    Then they came for the trade unionists
+                    And I did not speak out
+                    Because I was not a trade unionist
+                    Then they came for the Jews
+                    And I did not speak out
+                    Because I was not a Jew
+                    Then they came for me
+                    And there was no one left
+                    To speak out for me
+                    </div>
+
+                    <br><br>
+
+                    <h3 class="poem-title">Phenomenal Woman by Maya Angelou</h3>
+                    <div class="poem">Pretty women wonder where my secret lies.
+                    I’m not cute or built to suit a fashion model’s size   
+                    But when I start to tell them,
+                    They think I’m telling lies.
+                    I say,
+                    It’s in the reach of my arms,
+                    The span of my hips,   
+                    The stride of my step,   
+                    The curl of my lips.   
+                    I’m a woman
+                    Phenomenally.
+                    Phenomenal woman,   
+                    That’s me.
+
+                    I walk into a room
+                    Just as cool as you please,   
+                    And to a man,
+                    The fellows stand or
+                    Fall down on their knees.   
+                    Then they swarm around me,
+                    A hive of honey bees.   
+                    I say,
+                    It’s the fire in my eyes,   
+                    And the flash of my teeth,   
+                    The swing in my waist,   
+                    And the joy in my feet.   
+                    I’m a woman
+                    Phenomenally.
+
+                    Phenomenal woman,
+                    That’s me.
+
+                    Men themselves have wondered   
+                    What they see in me.
+                    They try so much
+                    But they can’t touch
+                    My inner mystery.
+                    When I try to show them,   
+                    They say they still can’t see.   
+                    I say,
+                    It’s in the arch of my back,   
+                    The sun of my smile,
+                    The ride of my breasts,
+                    The grace of my style.
+                    I’m a woman
+                    Phenomenally.
+                    Phenomenal woman,
+                    That’s me.
+
+                    Now you understand
+                    Just why my head’s not bowed.   
+                    I don’t shout or jump about
+                    Or have to talk real loud.   
+                    When you see me passing,
+                    It ought to make you proud.
+                    I say,
+                    It’s in the click of my heels,   
+                    The bend of my hair,   
+                    the palm of my hand,   
+                    The need for my care.   
+                    ’Cause I’m a woman
+                    Phenomenally.
+                    Phenomenal woman,
+                    That’s me.
+                    </div>
+
+                `
+            },
 
         ];
+
+        // sort latest to oldest
+        posts.sort((a, b) => b.date.localeCompare(a.date));
 
         // render stuff idk what i'm doing tbh
         let currentPage = 1;
@@ -792,7 +898,7 @@
                 html += `
                     <section class="section intro">
                         <h3>Welcome <3</h3>
-                        <p>My corner is cyberspace. No idea what I'll put here yet; mayhaps I'll share my projects here.</p>
+                        <p>My corner in cyberspace where I plan to share my opinions and projects.</p>
                         <div class="gif-row">
                             <img src="assets/paprika flying princess.gif" alt="Paprika Flying Princess" loading="lazy">
                             <img src="assets/paprika flying princess.gif" alt="Paprika Flying Princess" loading="lazy">
