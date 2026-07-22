@@ -678,6 +678,8 @@
         let animationId = null;
         let timeoutId = null;
         let isRainRunning = true;
+        let isRainStopping = false;
+        let userTurnedRainOff = false;
 
         // Detect if the device is mobile (touchscreen or small screen)
         const isMobile = window.innerWidth < 768 || window.matchMedia('(pointer: coarse)').matches;
@@ -709,18 +711,50 @@
 
                 ctx.fillText(char, x, y);
 
-                if (y > canvas.height) {
-                    drops[i] = 0;
-                } else {
+                if (isRainStopping) {
+                    // if stopping, let it fall off the screen without respawning
                     drops[i]++;
+                } else {
+                    // reset to top when hitting bottom
+                    if (y > canvas.height) {
+                        drops[i] = 0;
+                    } else {
+                        drops[i]++;
+                    }
                 }
             }
 
-            // only schedule the next frame if the rain is still running
+            let shouldKeepDrawing = false;
+
             if (isRainRunning) {
+                shouldKeepDrawing = true;
+            } else if (isRainStopping) {
+                // check if any drop is still visible on the screen
+                for (let i = 0; i < drops.length; i++) {
+                    if (drops[i] * fontSize <= canvas.height) {
+                        shouldKeepDrawing = true;
+                        break;
+                    }
+                }
+            }
+
+            if (shouldKeepDrawing) {
                 timeoutId = setTimeout(() => {
                     animationId = requestAnimationFrame(draw);
                 }, FRAME_DELAY);
+            } else {
+                if (isRainStopping) {
+                    isRainStopping = false;
+                }
+                isRainRunning = false;
+                if (timeoutId) {
+                    clearTimeout(timeoutId);
+                    timeoutId = null;
+                }
+                if (animationId) {
+                    cancelAnimationFrame(animationId);
+                    animationId = null;
+                }
             }
         }
 
@@ -747,7 +781,15 @@
                     cancelAnimationFrame(animationId);
                     animationId = null;
                 }
+                
+                // RESEED drops to random positions so they never sync up
+                const maxDropY = canvas.height / fontSize;
+                for (let i = 0; i < drops.length; i++) {
+                    drops[i] = Math.floor(Math.random() * maxDropY);
+                }
+
                 isRainRunning = true;
+                isRainStopping = false;
                 draw(); // restart the loop
             }
         }
@@ -755,9 +797,16 @@
         function toggleRain() {
             const btn = document.getElementById('rain-toggle');
             if (isRainRunning) {
-                stopRain();
+                // keep drawing until drops hit the bottom
+                isRainRunning = false;
+                isRainStopping = true;
+                userTurnedRainOff = true;
                 btn.textContent = 'Rain: Off';
             } else {
+                if (isRainStopping) {
+                    isRainStopping = false;
+                }
+                userTurnedRainOff = false;
                 startRain();
                 btn.textContent = 'Rain: On';
             }
@@ -767,9 +816,20 @@
         // resume when tab becomes visible again
         document.addEventListener('visibilitychange', function() {
             if (document.hidden) {
-                stopRain();
+                if (timeoutId) {
+                    clearTimeout(timeoutId);
+                    timeoutId = null;
+                }
+                if (animationId) {
+                    cancelAnimationFrame(animationId);
+                    animationId = null;
+                }
+                isRainRunning = false;
+                isRainStopping = false;
             } else {
-                startRain();
+                if (!userTurnedRainOff) {
+                    startRain();
+                }
             }
         });
 
