@@ -441,6 +441,29 @@
             border: 1px solid rgba(91, 206, 250, 0.15);
         }
 
+        /* Filter Status Bar */
+        .filter-status-bar {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-bottom: 1.5rem;
+            padding: 0.7rem 1.2rem;
+            background: rgba(91, 206, 250, 0.08);
+            border: 1px solid rgba(91, 206, 250, 0.2);
+            border-radius: 8px;
+            text-align: center;
+            color: #5BCEFA;
+            font-size: 0.95rem;
+        }
+
+        .filter-tags-display {
+            color: #F5A9B8;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+        }
+
         /* RSS Link */
         .rss-link {
             display: inline-flex;
@@ -990,9 +1013,12 @@
             // filter status
             if (activeTags.length > 0) {
                 html += `
-                    <p style="color: #5BCEFA; font-size: 0.9em; text-align: center; margin-bottom: 1rem;">
-                        Showing posts with tags: <span style="color: #F5A9B8;">${activeTags.map(t => '#' + t).join(' + ')}</span>
-                    </p>
+                    <div class="filter-status-bar">
+                        <span>Showing posts with tags:</span>
+                        <span class="filter-tags-display">
+                            ${activeTags.map(t => '#' + t).join(' + ')}
+                        </span>
+                    </div>
                 `;
             }
 
