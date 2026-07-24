@@ -394,7 +394,7 @@
             color: #F5A9B8;
         }
 
-                /* Filter Status Bar */
+        /* Filter Status Bar */
         .filter-status-bar {
             display: flex;
             justify-content: center;
@@ -731,7 +731,7 @@
             } else if (isRainStopping) {
                 // check if any drop is still visible on the screen
                 for (let i = 0; i < drops.length; i++) {
-                    if (drops[i] * fontSize <= canvas.height) {
+                    if (drops[i] * fontSize <= canvas.height + fontSize * 5) {
                         shouldKeepDrawing = true;
                         break;
                     }
